@@ -23,7 +23,7 @@
 			$.messager.confirm("系统提示", "您确认要删除么", function(r){
 				if (r){
 					$.post(
-						"${ctx}/user/delete.action",
+						"${ctx}/product/delete.action",
 						{ids:ids}, 
 						function(result) {
 							$.messager.alert("系统提示", result.message);
@@ -40,7 +40,7 @@
 		/* 添加dialog */
 		function openAddDialog() {
 			$("#dialog").dialog("open").dialog("setTitle","添加信息");
-			url = "${ctx}/user/add.action";
+			url = "${ctx}/product/add.action";
 			$('#form').form("clear");	
 		}
 		
@@ -53,7 +53,7 @@
 			}
 			var row = selections[0];
 			$("#dialog").dialog("open").dialog("setTitle","修改信息");
-			url = "${ctx}/user/update.action";
+			url = "${ctx}/product/update.action";
 			$('#form').form("load", row);
 		}
 		
@@ -65,10 +65,10 @@
 			$("#form").form('submit',{
 				url:url,
 				onSubmit:function(){
-					if($("#roleName").combobox("getValue") == ""){
+					/* if($("#roleName").combobox("getValue") == ""){
 						$.message.alert("系统提示","请选择用户角色");
-						return false;
-					}
+						return false; }*/
+					
 					return $(this).form("validate");
 				},
 				success:function(data){
@@ -87,18 +87,18 @@
 
 <body>
 	<table id="datagrid" class="easyui-datagrid" data-options="rownumbers:true,fit:true,
-	singleSelect:false,url:'${ctx}/user/findAll.action',method:'get',
+	singleSelect:false,url:'${ctx}/product/findAll.action',method:'get',
 	toolbar:'#toolbar',fitColumns:true,pagination:true">
 		<thead>
 			<tr>
 				<th data-options="field:'cb',checkbox:true,align:'center'"></th>
 				<th data-options="field:'id',width:80,align:'center'">编号</th>
-				<th data-options="field:'Name',width:100,align:'center'">用户名</th>
-				<th data-options="field:'password',width:80,align:'center'">密码</th>
-				<th data-options="field:'trueName',width:80,align:'center'">真实姓名</th>
-				<th data-options="field:'email',width:150,align:'center'">邮件</th>
-				<th data-options="field:'phone',width:100,align:'center'">联系电话</th>
-				<th data-options="field:'roleName',width:100,align:'center'">角色</th>
+				<th data-options="field:'name',width:100,align:'center'">产品名称</th>
+				<th data-options="field:'model',width:80,align:'center'">型号</th>
+				<th data-options="field:'unit',width:80,align:'center'">单位</th>
+				<th data-options="field:'price',width:150,align:'center'">价格</th>
+				<th data-options="field:'stock',width:100,align:'center'">库存</th>
+				<th data-options="field:'remark',width:100,align:'center'">备注</th>
 			</tr>
 		</thead>
 	</table>
@@ -119,33 +119,25 @@
 			<input type="hidden" id="id" name="id"/>
 			<table cellspacing="8px">
 				<tr>
-					<td>用户名：</td>
-					<td><input typr="text" id="Name" name="Name" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td>产品名称：</td>
+					<td><input typr="text" id="name" name="name" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>密码：</td>
-					<td><input typr="text" id="password" name="password" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td>型号：</td>
+					<td><input typr="text" id="model" name="model" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td>真实姓名：</td>
-					<td><input typr="text" id="trueName" name="trueName" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td>单位：</td>
+					<td><input typr="text" id="unit" name="unit" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>邮箱：</td>
-					<td><input typr="text" id="email" name="email" class="easyui-validatebox" required="true" validType="email"/><font color="red">*</font></td>
+					<td>价格：</td>
+					<td><input typr="text" id="price" name="price" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td>联系电话：</td>
-					<td><input type="text" id="phone" name="phone" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td>库存：</td>
+					<td><input type="text" id="stock" name="stock" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>用户角色：</td>
-					<td>
-						<select class="easyui-combobox" id="roleName" name="roleName" style="width:160">
-							<option></option>
-							<option value="系统管理员">系统管理员</option>
-							<option value="销售主管">销售主管</option>
-							<option value="客户经理">客户经理</option>
-							<option value="高管">高管</option>
-						</select>
-						<font color="red">*</font></td>
+					<td>备注：</td>
+					<td><input typr="text" id="remark" name="remark" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 			</table>
 		</form>

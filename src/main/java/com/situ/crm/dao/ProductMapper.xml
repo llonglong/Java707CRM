@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.situ.crm.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.situ.crm.pojo.User" >
+<mapper namespace="com.situ.crm.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.situ.crm.pojo.Product" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
-    <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="stock" property="stock" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, password, true_name, email, phone, role_name
+    id, name, model, unit, price, stock, remark
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.situ.crm.pojo.UserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.situ.crm.pojo.ProductExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from product
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,29 +88,29 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from user
+    from product
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user
+    delete from product
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.situ.crm.pojo.UserExample" >
-    delete from user
+  <delete id="deleteByExample" parameterType="com.situ.crm.pojo.ProductExample" >
+    delete from product
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.situ.crm.pojo.User" >
-    insert into user (id, name, password, 
-      true_name, email, phone, 
-      role_name)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{trueName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{roleName,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.situ.crm.pojo.Product" >
+    insert into product (id, name, model, 
+      unit, price, stock, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{stock,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.situ.crm.pojo.User" >
-    insert into user
+  <insert id="insertSelective" parameterType="com.situ.crm.pojo.Product" >
+    insert into product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -118,20 +118,20 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="password != null" >
-        password,
+      <if test="model != null" >
+        model,
       </if>
-      <if test="trueName != null" >
-        true_name,
+      <if test="unit != null" >
+        unit,
       </if>
-      <if test="email != null" >
-        email,
+      <if test="price != null" >
+        price,
       </if>
-      <if test="phone != null" >
-        phone,
+      <if test="stock != null" >
+        stock,
       </if>
-      <if test="roleName != null" >
-        role_name,
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -141,31 +141,31 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
       </if>
-      <if test="trueName != null" >
-        #{trueName,jdbcType=VARCHAR},
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
       </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
+      <if test="stock != null" >
+        #{stock,jdbcType=DOUBLE},
       </if>
-      <if test="roleName != null" >
-        #{roleName,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.situ.crm.pojo.UserExample" resultType="java.lang.Integer" >
-    select count(*) from user
+  <select id="countByExample" parameterType="com.situ.crm.pojo.ProductExample" resultType="java.lang.Integer" >
+    select count(*) from product
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update user
+    update product
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -173,20 +173,20 @@
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null" >
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.model != null" >
+        model = #{record.model,jdbcType=VARCHAR},
       </if>
-      <if test="record.trueName != null" >
-        true_name = #{record.trueName,jdbcType=VARCHAR},
+      <if test="record.unit != null" >
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=REAL},
       </if>
-      <if test="record.phone != null" >
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.stock != null" >
+        stock = #{record.stock,jdbcType=DOUBLE},
       </if>
-      <if test="record.roleName != null" >
-        role_name = #{record.roleName,jdbcType=VARCHAR},
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -194,50 +194,50 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update user
+    update product
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      true_name = #{record.trueName,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
-      role_name = #{record.roleName,jdbcType=VARCHAR}
+      model = #{record.model,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=REAL},
+      stock = #{record.stock,jdbcType=DOUBLE},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.situ.crm.pojo.User" >
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.situ.crm.pojo.Product" >
+    update product
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
       </if>
-      <if test="trueName != null" >
-        true_name = #{trueName,jdbcType=VARCHAR},
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
       </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=DOUBLE},
       </if>
-      <if test="roleName != null" >
-        role_name = #{roleName,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.situ.crm.pojo.User" >
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.situ.crm.pojo.Product" >
+    update product
     set name = #{name,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      true_name = #{trueName,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      role_name = #{roleName,jdbcType=VARCHAR}
+      model = #{model,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      stock = #{stock,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
