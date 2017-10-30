@@ -32,4 +32,16 @@ public class UserController {
 	public ServerResponse delete(String ids){
 		return userService.delete(ids);
 	}
+	
+	@RequestMapping("/add")
+	@ResponseBody
+	public ServerResponse add(User user){
+		return userService.add(user);
+	}
+	
+	@RequestMapping("/update")
+	@ResponseBody
+	public ServerResponse update(User user){
+		return userService.update(user);
+	}
 }

@@ -37,12 +37,50 @@
 			})
 		}
 		var url;
-		/* 打开添加dialog */
+		/* 添加dialog */
 		function openAddDialog() {
 			$("#dialog").dialog("open").dialog("setTitle","添加信息");
 			url = "${ctx}/user/add.action";
-			$('#form').form("clear");
-			
+			$('#form').form("clear");	
+		}
+		
+		/* 修改dialog */
+		function openUpdateDialog() {
+			var selections = $("#datagrid").datagrid("getSelections");
+			if(selections.length == 0) {
+				$.messager.alert("系统提示", "请选择要修改的数据");
+				return;
+			}
+			var row = selections[0];
+			$("#dialog").dialog("open").dialog("setTitle","修改信息");
+			url = "${ctx}/user/update.action";
+			$('#form').form("load", row);
+		}
+		
+		function closeDialog(){
+			 $("#dialog").dialog("close");
+		}
+		
+		function doSave(){
+			$("#form").form('submit',{
+				url:url,
+				onSubmit:function(){
+					if($("#roleName").combobox("getValue") == ""){
+						$.message.alert("系统提示","请选择用户角色");
+						return false;
+					}
+					return $(this).form("validate");
+				},
+				success:function(data){
+					alert(data);
+					var data = eval('(' + data + ')'); 
+					if(data.status == Util.SUCCESS){
+						$.messager.alert("系统提示", data.message);
+			    		$("#dialog").dialog("close");
+			    		$("#datagrid").datagrid("reload");
+					}
+				}
+			});
 		}
 		
 	</script>
@@ -68,7 +106,7 @@
 	<!-- toolbar -->
 	<div id="toolbar">
 		<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
-		<a class="easyui-linkbutton" iconCls="icon-edit">修改</a>
+		<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
 		<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input class="easyui-searchbox" data-options="prompt:'用户名',searcher:doSearch" style="width:150px"></input>
@@ -78,6 +116,7 @@
 	<div id="dialog" class="easyui-dialog" closed="true"
 	style="width:650;height:280,padding: 10px 20px" buttons="#dialog-button">
 		<form action="" id="form" method=""post>
+			<input type="hidden" id="id" name="id"/>
 			<table cellspacing="8px">
 				<tr>
 					<td>用户名：</td>
@@ -111,7 +150,11 @@
 			</table>
 		</form>
 	</div>
-
+	
+	<div id="dialog-button">
+		<a href="javascript:doSave()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a href="javascript:closeDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+	</div>
 
 </body>
 </html>
