@@ -32,7 +32,21 @@ public class UserServiceImpl implements IUserService{
 		if (StringUtils.isNotEmpty(user.getName())) {
 			creatCriteria.andNameLike(Util.formatLike(user.getName()));
 		}
-		
+		if (StringUtils.isNotEmpty(user.getPassword())) {
+			creatCriteria.andPasswordLike(Util.formatLike(user.getPassword()));
+		}
+		if (StringUtils.isNotEmpty(user.getTrueName())) {
+			creatCriteria.andTrueNameLike(Util.formatLike(user.getTrueName()));
+		}
+		if (StringUtils.isNotEmpty(user.getEmail())) {
+			creatCriteria.andEmailLike(Util.formatLike(user.getEmail()));
+		}
+		if (StringUtils.isNotEmpty(user.getPhone())) {
+			creatCriteria.andPhoneLike(Util.formatLike(user.getPhone()));
+		}
+		if (StringUtils.isNotEmpty(user.getRoleName())) {
+			creatCriteria.andRoleNameLike(Util.formatLike(user.getRoleName()));
+		}
 		List<User> userList = userMapper.selectByExample(example);
 		PageInfo<User> pageInfo = new PageInfo<>(userList);
 		int total = (int) pageInfo.getTotal();

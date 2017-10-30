@@ -8,9 +8,30 @@
 <title>Insert title here</title>
 </head>
 	<script type="text/javascript">
-		function doSearch(value){
+	$(function(){
+		$("#datagrid").datagrid({
+			url:'${ctx}/dataDic/findAll.action',
+			method:'get',
+			fit:true,
+			singleSelect:false,
+			toolbar:'#toolbar',
+			rownumbers:true,
+			fitColumns:true,
+			pagination:true,
+			columns:[[    
+			     {field:'cb',checkbox:true,align:'center'},    
+			     {field:'id',title:'编号',width:80,align:'center'},    
+			     {field:'dataDicName',title:'数据字典名称',width:100,align:'center'},    
+			     {field:'dataDicValue',title:'数据字典值',width:80,align:'center'}    
+			         
+			]] 
+		})
+	});	
+	
+		function doSearch(){
 			$("#datagrid").datagrid("load",{
-				'Name':value
+				'dataDicName':$("#dataDicName").val(),
+				'dataDicValue':$("#dataDicValue").val()
 			})
 		}
 		/* 删除 */
@@ -65,10 +86,6 @@
 			$("#form").form('submit',{
 				url:url,
 				onSubmit:function(){
-					/* if($("#roleName").combobox("getValue") == ""){
-						$.message.alert("系统提示","请选择用户角色");
-						return false; }*/
-					
 					return $(this).form("validate");
 				},
 				success:function(data){
@@ -86,37 +103,42 @@
 	</script>
 
 <body>
-	<table id="datagrid" class="easyui-datagrid" data-options="rownumbers:true,fit:true,
-	singleSelect:false,url:'${ctx}/dataDic/findAll.action',method:'get',
-	toolbar:'#toolbar',fitColumns:true,pagination:true">
-		<thead>
-			<tr>
-				<th data-options="field:'cb',checkbox:true,align:'center'"></th>
-				<th data-options="field:'id',width:80,align:'center'">编号</th>
-				<th data-options="field:'dataDicName',width:100,align:'center'">数据字典名称</th>
-				<th data-options="field:'dataDicValue',width:80,align:'center'">数据字典值</th>
-			</tr>
-		</thead>
-	</table>
+	<table id="datagrid" ></table>
 	
 	<!-- toolbar -->
 	<div id="toolbar">
-		<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
-		<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
-		<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<input class="easyui-searchbox" data-options="prompt:'用户名',searcher:doSearch" style="width:150px"></input>
+		<div>
+			<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
+			<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
+			<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
+		</div>
+		<div>
+			数据字典名称：<input type="text" id="dataDicName" class="easyui-combobox"
+						data-options="
+							url:'${ctx}/dataDic/findDataDic.action',
+							valueField:'dataDicName',
+							textField:'dataDicName',
+							panelHeight:'auto',
+							editable:false"/>
+			数据字典值<input type="text" id="dataDicValue"/>
+			<a href="javascript:doSearch();" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+		</div>
 	</div>
 	
 	<!-- dialog -->
 	<div id="dialog" class="easyui-dialog" closed="true"
-	style="width:650;height:280,padding: 10px 20px" buttons="#dialog-button">
+	style="width:700;height:280,padding: 10px 20px" buttons="#dialog-button">
 		<form action="" id="form" method=""post>
 			<input type="hidden" id="id" name="id"/>
 			<table cellspacing="8px">
 				<tr>
 					<td>数据字典名称：</td>
-					<td><input typr="text" id="dataDicName" name="dataDicName" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td><input type="text" id="dataDicName" name="dataDicName" class="easyui-combobox"
+					 data-options="
+					 	url:'${ctx}/dataDic/findDataDic.action',
+					 	valueField: 'dataDicName',
+					 	textField: 'dataDicName',
+					 	panelHeight:'auto' "/><font color="red">*</font></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>数据字典值：</td>
 					<td><input typr="text" id="dataDicValue" name="dataDicValue" class="easyui-validatebox" required="true"/><font color="red">*</font></td>

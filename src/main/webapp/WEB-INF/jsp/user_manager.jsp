@@ -8,9 +8,36 @@
 <title>Insert title here</title>
 </head>
 	<script type="text/javascript">
-		function doSearch(value){
+		$(function(){
+			$("#datagrid").datagrid({
+				url:'${ctx}/user/findAll.action',
+				method:'get',
+				fit:true,
+				singleSelect:false,
+				toolbar:'#toolbar',
+				rownumbers:true,
+				fitColumns:true,
+				pagination:true,
+				columns:[[    
+				     {field:'cb',checkbox:true,align:'center'},    
+				     {field:'id',title:'编号',width:80,align:'center'},    
+				     {field:'name',title:'用户名',width:100,align:'center'},    
+				     {field:'password',title:'密码',width:80,align:'center'},    
+				     {field:'trueName',title:'真实姓名',width:80,align:'center'},    
+				     {field:'email',title:'邮件',width:100,align:'center'},    
+				     {field:'phone',title:'联系电话',width:100,align:'center'},    
+				     {field:'roleName',title:'角色',width:100,align:'center'}    
+				]] 
+			})
+		});
+		function doSearch(){
 			$("#datagrid").datagrid("load",{
-				'Name':value
+				'name':$("#name").val(),
+				'name':$("#password").val(),
+				'name':$("#trueName").val(),
+				'name':$("#email").val(),
+				'phone':$("#phone").val(),
+				'roleName':$("#roleName").val()
 			})
 		}
 		/* 删除 */
@@ -86,30 +113,30 @@
 	</script>
 
 <body>
-	<table id="datagrid" class="easyui-datagrid" data-options="rownumbers:true,fit:true,
-	singleSelect:false,url:'${ctx}/user/findAll.action',method:'get',
-	toolbar:'#toolbar',fitColumns:true,pagination:true">
-		<thead>
-			<tr>
-				<th data-options="field:'cb',checkbox:true,align:'center'"></th>
-				<th data-options="field:'id',width:80,align:'center'">编号</th>
-				<th data-options="field:'Name',width:100,align:'center'">用户名</th>
-				<th data-options="field:'password',width:80,align:'center'">密码</th>
-				<th data-options="field:'trueName',width:80,align:'center'">真实姓名</th>
-				<th data-options="field:'email',width:150,align:'center'">邮件</th>
-				<th data-options="field:'phone',width:100,align:'center'">联系电话</th>
-				<th data-options="field:'roleName',width:100,align:'center'">角色</th>
-			</tr>
-		</thead>
-	</table>
+	<table id="datagrid"></table>
 	
 	<!-- toolbar -->
 	<div id="toolbar">
-		<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
-		<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
-		<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<input class="easyui-searchbox" data-options="prompt:'用户名',searcher:doSearch" style="width:150px"></input>
+		<div>
+			<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
+			<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
+			<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
+		</div>
+		<div>
+			用户名：<input class="easyui-searchbox" id="name" style="width:150px"/>
+			密码：<input class="easyui-searchbox" id="password" style="width:150px"/>
+			真实姓名：<input class="easyui-searchbox" id="trueName" style="width:150px"/>
+			邮箱：<input class="easyui-searchbox" id="email" style="width:150px"/>
+			电话：<input class="easyui-searchbox" id="phone" style="width:150px"/>
+			用户角色：<select  class="easyui-combobox" id="roleName" editable="false">
+						<option></option>
+						<option value="系统管理员">系统管理员</option>
+						<option value="销售主管">销售主管</option>
+						<option value="客户经理">客户经理</option>
+						<option value="高管">高管</option>	
+				   </select >
+			<a href="javascript:doSearch();" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+		</div>
 	</div>
 	
 	<!-- dialog -->
@@ -120,7 +147,7 @@
 			<table cellspacing="8px">
 				<tr>
 					<td>用户名：</td>
-					<td><input typr="text" id="Name" name="Name" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td><input typr="text" id="name" name="name" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 					<td>密码：</td>
 					<td><input typr="text" id="password" name="password" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
