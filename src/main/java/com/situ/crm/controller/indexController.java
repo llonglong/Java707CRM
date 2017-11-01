@@ -11,4 +11,9 @@ public class indexController {
 	public String index() {
 		return "index";
 	}
+	
+	@RequestMapping("/tologin")
+	public String tologin(){
+		return "login";
+	}
 }

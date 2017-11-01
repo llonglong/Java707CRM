@@ -65,10 +65,6 @@
 			$("#form").form('submit',{
 				url:url,
 				onSubmit:function(){
-					/* if($("#roleName").combobox("getValue") == ""){
-						$.message.alert("系统提示","请选择用户角色");
-						return false; }*/
-					
 					return $(this).form("validate");
 				},
 				success:function(data){
@@ -115,7 +111,7 @@
 	<!-- dialog -->
 	<div id="dialog" class="easyui-dialog" closed="true"
 	style="width:650;height:280,padding: 10px 20px" buttons="#dialog-button">
-		<form action="" id="form" method=""post>
+		<form action="" id="form" method="post">
 			<input type="hidden" id="id" name="id"/>
 			<table cellspacing="8px">
 				<tr>

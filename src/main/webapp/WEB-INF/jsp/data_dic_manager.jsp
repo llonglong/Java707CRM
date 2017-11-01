@@ -90,7 +90,7 @@
 				},
 				success:function(data){
 					/* alert(data); */
-					var data = eval('(' + data + ')'); 
+					var data = eval('(' + data +  ')'); 
 					if(data.status == Util.SUCCESS){
 						$.messager.alert("系统提示", data.message);
 			    		$("#dialog").dialog("close");

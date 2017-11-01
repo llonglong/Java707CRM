@@ -21,6 +21,39 @@
 			});
 		}
 	}
+	/* var url;
+	function openPasswordModifyDialog(){
+		$("#dialog").dialog("open").dialog("setTitle","修改密码");
+		url:"${ctx}/user/update.action";
+		var row = selections[0];
+		$('#form').form("load", row);
+	}
+	
+	function closeDialog(){
+		 $("#dialog").dialog("close");
+	} */
+	
+	/* function doSave(){
+		$("#form").form('submit',{
+			url:url,
+			onSubmit:function(){
+				if($("#password")!=($("#passwordPardon"))){
+					$.message.alert("系统提示","请确定新密码是否正确");
+					return false;
+				}
+				return $(this).form("validate");
+			},
+			success:function(data){
+				
+				var data = eval('(' + data + ')'); 
+				if(data.status == Util.SUCCESS){
+					$.messager.alert("系统提示", data.message);
+		    		$("#dialog").dialog("close");
+		    		$("#datagrid").datagrid("reload");
+				}
+			}
+		});
+	} */
 </script>
 </head>
 <body class="easyui-layout">
@@ -29,7 +62,7 @@
 			<tr>
 				<td width="50%"><img alt="logo"
 					src="${pageContext.request.contextPath}/images/bglogo.png"></td>
-				<td valign="bottom" align="right" width="50%"><font size="3">&nbsp;&nbsp;<strong>欢迎：</strong>${currentUser.userName }</font>【${currentUser.trueName }】【${currentUser.roleName }】
+				<td valign="bottom" align="right" width="50%"><font size="3">&nbsp;&nbsp;<strong>欢迎：</strong>${user.name}</font>【${user.trueName}】【${user.roleName }】
 				</td>
 			</tr>
 		</table>
@@ -48,7 +81,7 @@
 			<div title="营销管理" data-options="selected:true,iconCls:'icon-yxgl'"
 				style="padding: 10px">
 				<a
-					href="javascript:openTab('营销机会管理','saleChanceManage.jsp','icon-yxjhgl')"
+					href="javascript:openTab('营销机会管理','${ctx}/saleChance/index.action','icon-yxjhgl')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-yxjhgl'"
 					style="width: 150px">营销机会管理</a> <a
@@ -131,11 +164,42 @@
 				<a href="javascript:openPasswordModifyDialog()"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-modifyPassword'"
-					style="width: 150px;">修改密码</a> <a href="javascript:logout()"
+					style="width: 150px;">修改密码</a> 
+					<a href="javascript:logout()"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-exit'" style="width: 150px;">安全退出</a>
 			</div>
 		</div>
+	</div>
+	<!-- dialog -->
+	<div id="dialog" class="easyui-dialog" closed="true"
+	style="width:350;height:300,padding: 10px 20px" buttons="#dialog-button">
+		<form action="" id="form" method=""post>
+			<input type="hidden" id="id" name="id"/>
+			<table cellspacing="8px">
+				<tr>
+					<td>用户名：</td>
+					<td><input typr="text" id="name" name="name" value="${user.name}" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input typr="text" value="${user.password}" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+				</tr>
+				<tr>
+					<td>修改密码：</td>
+					<td><input typr="text" id="password" name="password" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+				</tr>
+				<tr>
+					<td>确定新密码：</td>
+					<td><input typr="text" id="passwordPardon" name="passwordPardon" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<div id="dialog-button">
+		<a href="javascript:doSave()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+		<a href="javascript:closeDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 	</div>
 	<div region="south" style="height: 25px; padding: 5px" align="center">
 		Java1707CRM管理系统

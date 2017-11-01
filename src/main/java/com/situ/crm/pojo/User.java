@@ -70,4 +70,12 @@ public class User {
     public void setRoleName(String roleName) {
         this.roleName = roleName == null ? null : roleName.trim();
     }
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", password=" + password + ", trueName=" + trueName + ", email="
+				+ email + ", phone=" + phone + ", roleName=" + roleName + "]";
+	}
+    
+    
 }

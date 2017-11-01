@@ -32,12 +32,12 @@
 		});
 		function doSearch(){
 			$("#datagrid").datagrid("load",{
-				'name':$("#name").val(),
-				'name':$("#password").val(),
-				'name':$("#trueName").val(),
-				'name':$("#email").val(),
-				'phone':$("#phone").val(),
-				'roleName':$("#roleName").val()
+				'name':$("#s_name").val(),
+				'password':$("#s_password").val(),
+				'trueName':$("#s_trueName").val(),
+				'email':$("#s_email").val(),
+				'phone':$("#s_phone").val(),
+				'roleName':$("#s_roleName").val()
 			})
 		}
 		/* 删除 */
@@ -89,17 +89,16 @@
 		}
 		
 		function doSave(){
-			$("#form").form('submit',{
+			$('#form').form('submit',{
 				url:url,
 				onSubmit:function(){
-					if($("#roleName").combobox("getValue") == ""){
-						$.message.alert("系统提示","请选择用户角色");
-						return false;
+					 if($("#roleName").combobox("getValue") == "") {
+				        	$.messager.alert("系统提示", "请选择用户角色");
+				        	return false;
 					}
 					return $(this).form("validate");
 				},
 				success:function(data){
-					/* alert(data); */
 					var data = eval('(' + data + ')'); 
 					if(data.status == Util.SUCCESS){
 						$.messager.alert("系统提示", data.message);
@@ -123,12 +122,12 @@
 			<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
 		</div>
 		<div>
-			用户名：<input class="easyui-searchbox" id="name" style="width:150px"/>
-			密码：<input class="easyui-searchbox" id="password" style="width:150px"/>
-			真实姓名：<input class="easyui-searchbox" id="trueName" style="width:150px"/>
-			邮箱：<input class="easyui-searchbox" id="email" style="width:150px"/>
-			电话：<input class="easyui-searchbox" id="phone" style="width:150px"/>
-			用户角色：<select  class="easyui-combobox" id="roleName" editable="false">
+			用户名：<input type="text" id="s_name" style="width:100px"/>
+			密码：<input type="text" id="s_password" style="width:100px"/>
+			真实姓名：<input type="text" id="s_trueName" style="width:100px"/>
+			邮箱：<input type="text" id="s_email" style="width:100px"/>
+			电话：<input type="text" id="s_phone" style="width:100px"/>
+			用户角色：<select  type="text" id="s_roleName" editable="false">
 						<option></option>
 						<option value="系统管理员">系统管理员</option>
 						<option value="销售主管">销售主管</option>
@@ -142,7 +141,7 @@
 	<!-- dialog -->
 	<div id="dialog" class="easyui-dialog" closed="true"
 	style="width:650;height:280,padding: 10px 20px" buttons="#dialog-button">
-		<form action="" id="form" method=""post>
+		<form action="" id="form" method="post">
 			<input type="hidden" id="id" name="id"/>
 			<table cellspacing="8px">
 				<tr>

@@ -1,4 +1,4 @@
-package com.situ.crm.service;
+package com.situ.crm.service.impl;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import com.situ.crm.pojo.Product;
 import com.situ.crm.pojo.Product;
 import com.situ.crm.pojo.ProductExample;
 import com.situ.crm.pojo.ProductExample.Criteria;
+import com.situ.crm.service.IProductService;
 import com.situ.crm.util.Util;
 @Service
 public class ProductServiceImpl implements IProductService{

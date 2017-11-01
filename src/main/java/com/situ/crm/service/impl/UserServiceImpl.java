@@ -1,4 +1,4 @@
-package com.situ.crm.service;
+package com.situ.crm.service.impl;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import com.situ.crm.dao.UserMapper;
 import com.situ.crm.pojo.User;
 import com.situ.crm.pojo.UserExample;
 import com.situ.crm.pojo.UserExample.Criteria;
+import com.situ.crm.service.IUserService;
 import com.situ.crm.util.Util;
 @Service
 public class UserServiceImpl implements IUserService{
@@ -79,6 +80,20 @@ public class UserServiceImpl implements IUserService{
 			return ServerResponse.createSuccess("修改成功");
 		}
 		return ServerResponse.createError("修改失败");
+	}
+
+	@Override
+	public User getUser(String name,String password) {
+		return userMapper.getUser(name,password);
+	}
+
+	@Override
+	public List<User> getCustomerManagerList() {
+		UserExample userExample = new UserExample();
+		Criteria criteria = userExample.createCriteria();
+		criteria.andRoleNameEqualTo("客户经理");
+		List<User> list = userMapper.selectByExample(userExample);
+		return list;
 	}
 
 }
