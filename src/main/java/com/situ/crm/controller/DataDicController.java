@@ -52,4 +52,10 @@ public class DataDicController {
 	public List<DataDic> findDataDic(){
 		return dataDicService.findDataDic();
 	}
+	
+	@RequestMapping("/getDataDicValueList")
+	@ResponseBody
+	public List<DataDic> getDataDicValueList(){
+		return dataDicService.getDataDicValueList();
+	}
 }

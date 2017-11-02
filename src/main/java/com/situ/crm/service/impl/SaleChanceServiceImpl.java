@@ -1,5 +1,6 @@
 package com.situ.crm.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +26,7 @@ public class SaleChanceServiceImpl implements ISaleChanceService{
 	private SaleChanceMapper saleChanceMapper;
 	
 	@Override
-	public EasyUIDataGrideResult findAll(Integer page,Integer rows,SaleChance saleChance) {
+	public EasyUIDataGrideResult findAll(Integer page,Integer rows,SaleChance saleChance,Date beginData,Date endData) {
 		EasyUIDataGrideResult result = new EasyUIDataGrideResult();
 		SaleChanceExample example = new SaleChanceExample();
 		//分页
@@ -46,6 +47,9 @@ public class SaleChanceServiceImpl implements ISaleChanceService{
 		}
 		if (saleChance.getDevResult() != null) {
 			creatCriteria.andDevResultEqualTo(saleChance.getDevResult());
+		}
+		if (beginData != null && endData != null) {
+			creatCriteria.andCreateTimeBetween(beginData, endData);
 		}
 		
 		List<SaleChance> saleChanceList = saleChanceMapper.selectByExample(example);
@@ -73,7 +77,7 @@ public class SaleChanceServiceImpl implements ISaleChanceService{
 		}else{
 			saleChance.setStatus(0);
 		}
-
+		saleChance.setDevResult(0);
 		if (saleChanceMapper.insert(saleChance)>0) {
 			return ServerResponse.createSuccess("添加成功");
 		}
@@ -86,6 +90,26 @@ public class SaleChanceServiceImpl implements ISaleChanceService{
 			return ServerResponse.createSuccess("修改成功");
 		}
 		return ServerResponse.createError("修改失败");
+	}
+
+	@Override
+	public ServerResponse findById(Integer id) {
+		SaleChance saleChance = saleChanceMapper.selectByPrimaryKey(id);
+		if (saleChance != null) {
+			return ServerResponse.createSuccess("查找成功！",saleChance);
+		}
+		return ServerResponse.createError("查找失败！");
+	}
+
+	@Override
+	public ServerResponse updateDevResult(Integer saleChanceId, Integer devResult) {
+		SaleChance saleChance = new SaleChance();
+		saleChance.setId(saleChanceId);
+		saleChance.setDevResult(devResult);
+		if (saleChanceMapper.updateByPrimaryKeySelective(saleChance) > 0) {
+			return ServerResponse.createSuccess("更新成功");
+		}
+		return ServerResponse.createError("更新失败");
 	}
 
 }

@@ -10,7 +10,7 @@
 	<script type="text/javascript">
 	$(function(){
 		$("#datagrid").datagrid({
-			url:'${ctx}/saleChance/findAll.action',
+			url:'${ctx}/saleChance/findAll.action?status=1',
 			method:'get',
 			fit:true,
 			singleSelect:false,
@@ -21,19 +21,32 @@
 			columns:[[    
 			     {field:'cb',checkbox:true,align:'center'},    
 			     {field:'id',title:'编号',width:50,align:'center'},    
-			     {field:'customerName',title:'客户名称',width:80,align:'center'},    
-			     {field:'overview',title:'概要',width:100,align:'center'},
-			     {field:'linkMan',title:'联系人',width:50,align:'center'},
+			     {field:'customerName',title:'客户名称',width:100,align:'center'},    
+			     {field:'overview',title:'概要',width:80,align:'center'},
+			     {field:'linkMan',title:'联系人',width:80,align:'center'},
 			     {field:'linkPhone',title:'联系电话',width:80,align:'center'},
-			     {field:'createMan',title:'创建人',width:50,align:'center'},
-			     {field:'createTime',title:'创建时间',width:80,align:'center'},
-			     {field:'status',title:'分配状态',width:80,align:'center' ,formatter:function(value,row,index){
-			    	 if(value == 1){
-			    		 return "已分配";
-			    	 }else{
-			    		 return "未分配";
+			     {field:'createMan',title:'创建人',width:80,align:'center'},
+			     {field:'createTime',title:'创建时间',width:100,align:'center'},
+			     {field:'assignMan',title:'指派人',width:50,align:'center'},
+			     {field:'assignTime',title:'指派时间',width:100,align:'center'},
+			     {field:'devResult',title:'社会开发状态',width:80,align:'center' ,formatter:function(value,row,index){
+			    	 if(value==0){
+			    		 return "未开发";
+			    	 }else if(value==1){
+			    		 return "开发中";
+			    	 }else if(value==2){
+			    		 return "开发成功";
+			    	 }else if(value==3){
+			    		 return "开发失败";
 			    	 }
-			     }}
+			     }},
+			     {field:'a',title:'操作',width:80,align:'center',formatter:function(value,row,index){
+			    	 if(row.devResult==0||row.devResult==1){
+			    		 return "<a href='javascript:openCusDevPlanTab("+row.id+")'>开发</a>";
+			    	 }else{
+			    		 return "<a href='javascript:openCusDevPlanInfoTab("+row.id+")'>查看详细信息</a>";
+			    	 }
+			     }}, 
 			]] 
 		})
 	});	
@@ -54,11 +67,8 @@
 		function doSearch(){
 			$("#datagrid").datagrid("load",{
 				'customerName':$("#s_customerName").val(),
-				/* 'overview':$("#s_overview").val(), */
-				'createMan':$("#s_createMan").val(),
-				'beginData':$("#beginData").val(),
-				'endData':$("#endData").val(),
-				'status':$("#s_status").val()
+				'overview':$("#s_overview").val(), 				
+				'devResult':$("#s_devResult").val()
 			})
 		}
 		/* 删除 */
@@ -140,6 +150,15 @@
 			});
 		}
 		
+		//可以修改添加开发项
+		function openCusDevPlanTab(id){
+			 window.parent.openTab('客户开发计划项管理','${ctx}/cusDevPlan/index.action?saleChanceId='+id,'icon-khkfjh');
+		}
+		 
+		//只能查看开发信息
+		function openCusDevPlanInfoTab(id){
+			window.parent.openTab('查看客户开发计划项','${ctx}/cusDevPlan/index.action?saleChanceId='+id+'&show=true','icon-khkfjh');
+		}
 	</script>
 
 <body>
@@ -154,16 +173,15 @@
 		</div>
 		<div>
 			客户名称：<input type="text" id="s_customerName"/>
-			<!-- 概要：<input type="text" id="s_overview"/> -->
-			创建人：<input type="text" id="s_createMan"/>
-			创建时间：<input type="text" id="beginData" class="easyui-datetimebox" style="width:150px"/>
-			至：<input type="text" id="endData" class="easyui-datetimebox" style="width:150px"/>
-			分配转态：<select type="text" id="s_status" class="easyui-combobox"
-		     		panelHeight="auto" editable="false">
-		     		  <option value="">请选择...</option>	
- 					  <option value="0">未分配</option>
- 					  <option value="1">已分配</option>	
-		     	  </select>
+		           概要：<input type="text" id="s_overview"/>
+		           客户开发状态：<select type="text" id="s_devResult" class="easyui-combobox"
+		     		panelHeight="auto" editable="false" style="width:100px">
+		     		<option value="">请选择...</option>	
+ 					<option value="0">未开发</option>
+ 					<option value="1">开发中</option>	
+ 					<option value="2">开发成功</option>	
+ 					<option value="3">开发失败</option>	
+		     	</select>
 			<a href="javascript:doSearch();" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
 		</div>
 	</div>

@@ -36,10 +36,15 @@ public class SaleChanceController {
 		return "sale_chance_manager";
 	}
 	
+	@RequestMapping("/cusDevPlan")
+	public String cusDevPlan() {
+		return "cus_dev_plan_manager";
+	}
+	
 	@RequestMapping("/findAll")
 	@ResponseBody
-	public EasyUIDataGrideResult findAll(Integer page,Integer rows,SaleChance saleChance){
-		return saleChanceService.findAll(page,rows,saleChance);
+	public EasyUIDataGrideResult findAll(Integer page,Integer rows,SaleChance saleChance,Date beginData,Date endData){
+		return saleChanceService.findAll(page,rows,saleChance,beginData,endData);
 	}
 	
 	@RequestMapping("/delete")
@@ -58,5 +63,17 @@ public class SaleChanceController {
 	@ResponseBody
 	public ServerResponse update(SaleChance saleChance){
 		return saleChanceService.update(saleChance);
+	}
+	
+	@RequestMapping("/findById")
+	@ResponseBody
+	public ServerResponse findById(Integer id){
+		return saleChanceService.findById(id);
+	}
+	
+	@RequestMapping("/updateDevResult")
+	@ResponseBody
+	public ServerResponse updateDevResult(Integer saleChanceId, Integer devResult) {
+		return saleChanceService.updateDevResult(saleChanceId, devResult);
 	}
 }
