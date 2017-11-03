@@ -13,4 +13,6 @@ public interface ICustomerService {
 	ServerResponse add(Customer customer);
 
 	ServerResponse update(Customer customer);
+
+	ServerResponse findById(Integer id);
 }

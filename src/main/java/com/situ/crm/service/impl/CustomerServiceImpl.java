@@ -15,6 +15,7 @@ import com.situ.crm.common.ServerResponse;
 import com.situ.crm.dao.CustomerMapper;
 import com.situ.crm.pojo.Customer;
 import com.situ.crm.pojo.CustomerExample;
+import com.situ.crm.pojo.SaleChance;
 import com.situ.crm.pojo.CustomerExample.Criteria;
 import com.situ.crm.service.ICustomerService;
 import com.situ.crm.util.Util;
@@ -73,4 +74,14 @@ public class CustomerServiceImpl implements ICustomerService{
 		return ServerResponse.createError("修改失败");
 	}
 
+	@Override
+	public ServerResponse findById(Integer id) {
+		Customer customer = customerMapper.selectByPrimaryKey(id);
+		if (customer != null) {
+			return ServerResponse.createSuccess("查找成功！",customer);
+		}
+		return ServerResponse.createError("查找失败！");
+	}
 }
+
+

@@ -44,4 +44,10 @@ public class CustomerController {
 	public ServerResponse update(Customer customer){
 		return customerService.update(customer);
 	}
+	
+	@RequestMapping("/findById")
+	@ResponseBody
+	public ServerResponse findById(Integer id){
+		return customerService.findById(id);
+	}
 }

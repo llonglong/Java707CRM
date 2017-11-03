@@ -20,7 +20,7 @@
 			pagination:true,
 			columns:[[    
 			     {field:'cb',checkbox:true,align:'center'},    
-			     /* {field:'id',title:'编号',width:80,align:'center'}, */    
+			     {field:'id',title:'编号',width:80,align:'center'}, 
 			     {field:'num',title:'客户编号',width:100,align:'center'},    
 			     {field:'name',title:'客户名称',width:80,align:'center'},    
 			     {field:'managerName',title:'客户经理',width:80,align:'center'},    
@@ -82,11 +82,45 @@
 			url = "${ctx}/customer/update.action";
 			$('#form').form("load", row);
 		}
+		/* 联系人管理 */
+		function customerLinkman(id){
+			var selections = $("#datagrid").datagrid("getSelections");
+			if(selections.length == 0) {
+				$.messager.alert("系统提示", "请选择要查看的数据");
+				return;
+			}
+			var row = selections[0];
+			window.parent.openTab('联系人管理','${ctx}/customerLinkman/index.action?id=' + row.id,'icon-lxr')
+		}
 		
+		/* 交往记录管理 */
+		function customerContact(id){
+			var selections = $("#datagrid").datagrid("getSelections");
+			if(selections.length == 0) {
+				$.messager.alert("系统提示", "请选择要查看的数据");
+				return;
+			}
+			var row = selections[0];
+			window.parent.openTab('联系人管理','${ctx}/customerContact/index.action?id=' + row.id,'icon-jwjl')
+		}
+		
+		/* 订单管理 */
+		function customerOrder(id){
+			var selections = $("#datagrid").datagrid("getSelections");
+			if(selections.length == 0) {
+				$.messager.alert("系统提示", "请选择要查看的数据");
+				return;
+			}
+			var row = selections[0];
+			window.parent.openTab('联系人管理','${ctx}/customerOrder/index.action?id=' + row.id,'icon-lsdd')
+		}
+		
+		/* 关闭 */
 		function closeDialog(){
 			 $("#dialog").dialog("close");
 		}
 		
+		/* 保存 */
 		function doSave(){
 			$("#form").form('submit',{
 				url:url,
@@ -117,7 +151,9 @@
 			<a class="easyui-linkbutton" href="javascript:openAddDialog()" iconCls="icon-add">添加</a>
 			<a class="easyui-linkbutton" href="javascript:openUpdateDialog()" iconCls="icon-edit">修改</a>
 			<a class="easyui-linkbutton" href="javascript:doDelete()" iconCls="icon-remove">删除</a>
-			<a class="easyui-linkbutton" href="javascript:customerLinkman()" iconCls="icon-remove">联系人管理</a>
+			<a class="easyui-linkbutton" href="javascript:customerLinkman(id)" iconCls="icon-lxr">联系人管理</a>
+			<a class="easyui-linkbutton" href="javascript:customerContact(id)" iconCls="icon-jwjl">交往记录管理</a>
+			<a class="easyui-linkbutton" href="javascript:customerOrder(id)" iconCls="icon-lsdd">历史订单管理</a>
 		</div>
 		<div>
 			客户编号：<input type="text" id="s_num" style="width:100px"/>

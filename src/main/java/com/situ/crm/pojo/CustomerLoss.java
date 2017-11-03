@@ -2,6 +2,8 @@ package com.situ.crm.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CustomerLoss {
     private Integer id;
 
@@ -51,6 +53,7 @@ public class CustomerLoss {
         this.customerManager = customerManager == null ? null : customerManager.trim();
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date getLastOrderTime() {
         return lastOrderTime;
     }
@@ -59,6 +62,7 @@ public class CustomerLoss {
         this.lastOrderTime = lastOrderTime;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date getConfirmLossTime() {
         return confirmLossTime;
     }

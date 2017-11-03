@@ -2,6 +2,8 @@ package com.situ.crm.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CustomerOrder {
     private Integer id;
 
@@ -39,6 +41,7 @@ public class CustomerOrder {
         this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date getOrderDate() {
         return orderDate;
     }

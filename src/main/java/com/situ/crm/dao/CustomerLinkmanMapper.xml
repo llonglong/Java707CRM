@@ -240,4 +240,9 @@
       phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="findGenderList" resultMap="BaseResultMap">
+  	SELECT DISTINCT gender FROM customer_linkman
+  </select>
+  
 </mapper>

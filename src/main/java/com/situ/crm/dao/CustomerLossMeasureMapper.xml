@@ -178,4 +178,10 @@
       measure = #{measure,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="findByLossId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  		SELECT <include refid="Base_Column_List" /> 
+  		FROM customer_loss_measure WHERE loss_id = #{id};
+  </select>
+  
 </mapper>

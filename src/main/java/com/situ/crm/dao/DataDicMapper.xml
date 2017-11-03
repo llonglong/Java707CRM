@@ -184,6 +184,6 @@
   </select>
   
   <select id="getDataDicValueList" resultMap="BaseResultMap">
-  	select distinct data_dic_value from data_dic
+  	select distinct data_dic_value from data_dic WHERE data_dic_name = '客户等级'
   </select>
 </mapper>

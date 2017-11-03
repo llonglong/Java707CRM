@@ -27,4 +27,6 @@ public interface CustomerLossMeasureMapper {
     int updateByPrimaryKeySelective(CustomerLossMeasure record);
 
     int updateByPrimaryKey(CustomerLossMeasure record);
+
+	List<CustomerLossMeasure> findByLossId(Integer id);
 }
