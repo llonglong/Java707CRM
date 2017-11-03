@@ -15,4 +15,9 @@ public interface ICustomerService {
 	ServerResponse update(Customer customer);
 
 	ServerResponse findById(Integer id);
+
+	/**
+	 * 查询流失客户
+	 */
+	void checkCustomerLoss();
 }
