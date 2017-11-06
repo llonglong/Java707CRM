@@ -96,4 +96,13 @@ public class UserServiceImpl implements IUserService{
 		return list;
 	}
 
+	@Override
+	public ServerResponse updateById(User user) {
+		if(userMapper.updateByPrimaryKeySelective(user)>0){
+			return ServerResponse.createSuccess("修改成功！");
+		}
+		return ServerResponse.createError("修改失败！");
+	}
+	
+
 }

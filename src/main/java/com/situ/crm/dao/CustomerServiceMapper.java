@@ -1,9 +1,12 @@
 package com.situ.crm.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.situ.crm.common.ServerResponse;
 import com.situ.crm.pojo.CustomerService;
 import com.situ.crm.pojo.CustomerServiceExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CustomerServiceMapper {
     int countByExample(CustomerServiceExample example);
@@ -27,4 +30,15 @@ public interface CustomerServiceMapper {
     int updateByPrimaryKeySelective(CustomerService record);
 
     int updateByPrimaryKey(CustomerService record);
+
+	List<com.situ.crm.vo.CustomerServiceAna> findCustomerService();
+
+	List<CustomerService> selectByExample1(CustomerServiceExample customerServiceExample);
+
+	List<CustomerService> selectByExample2(CustomerServiceExample customerServiceExample);
+
+	List<CustomerService> selectByExample3(CustomerServiceExample customerServiceExample);
+
+	ServerResponse getServiceDealPeople(CustomerService customerService);
+
 }

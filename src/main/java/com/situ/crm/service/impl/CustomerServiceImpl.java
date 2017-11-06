@@ -2,7 +2,9 @@ package com.situ.crm.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +17,17 @@ import com.situ.crm.common.ServerResponse;
 import com.situ.crm.dao.CustomerLossMapper;
 import com.situ.crm.dao.CustomerMapper;
 import com.situ.crm.dao.CustomerOrderMapper;
+import com.situ.crm.dao.CustomerServiceMapper;
 import com.situ.crm.pojo.Customer;
 import com.situ.crm.pojo.CustomerExample;
-import com.situ.crm.pojo.SaleChance;
 import com.situ.crm.pojo.CustomerExample.Criteria;
 import com.situ.crm.pojo.CustomerLoss;
 import com.situ.crm.pojo.CustomerOrder;
 import com.situ.crm.service.ICustomerService;
 import com.situ.crm.util.Util;
+import com.situ.crm.vo.CustomerConstitute;
+import com.situ.crm.vo.CustomerContribute;
+import com.situ.crm.vo.CustomerServiceAna;
 @Service
 public class CustomerServiceImpl implements ICustomerService{
 
@@ -34,6 +39,9 @@ public class CustomerServiceImpl implements ICustomerService{
 	
 	@Autowired
 	private CustomerLossMapper customerLossMapper;
+	
+	@Autowired
+	private CustomerServiceMapper customerServiceMapper;
 	
 	@Override
 	public EasyUIDataGrideResult findAll(Integer page,Integer rows,Customer customer) {
@@ -121,6 +129,41 @@ public class CustomerServiceImpl implements ICustomerService{
 			customerMapper.updateByPrimaryKeySelective(customer);
 		}
 	}
+
+	@Override
+	public EasyUIDataGrideResult findCustomerContribute(Integer page, Integer rows,
+			CustomerContribute customerContribute) {
+		EasyUIDataGrideResult result = new EasyUIDataGrideResult();
+		//1、设置分页 
+		PageHelper.startPage(page, rows);
+		//2、执行查询
+		//rows(分页之后的数据)
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (StringUtils.isNoneBlank(customerContribute.getName())) {
+			map.put("name", customerContribute.getName());
+		}
+		List<CustomerContribute> list = customerMapper.findCustomerContribute(map);
+		//total
+		PageInfo<CustomerContribute> pageInfo = new PageInfo<>(list);
+		int total = (int)pageInfo.getTotal();				
+		result.setTotal(total);
+		result.setRows(list);
+		return result;
+	}
+
+	@Override
+	public ServerResponse findCustomerConstitute() {
+		List<CustomerConstitute> list = customerMapper.findCustomerConstitute();
+		return ServerResponse.createSuccess("查找成功！", list);
+	}
+
+	@Override
+	public ServerResponse findCustomerService() {
+		List<CustomerServiceAna> list = customerServiceMapper.findCustomerService();
+		System.out.println(list);
+		return ServerResponse.createSuccess("查找成功！", list);
+	}
+
 }
 
 

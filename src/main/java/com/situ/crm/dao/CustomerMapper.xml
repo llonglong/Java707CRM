@@ -485,4 +485,16 @@
 	AND c.status=0;
   </select>
   
+  <select id="findCustomerContribute" resultType="com.situ.crm.vo.CustomerContribute">
+  	SELECT c.name,SUM(oi.sum) AS contribute
+	FROM customer AS c LEFT JOIN customer_order AS co ON c.id=co.customer_id
+	LEFT JOIN order_item AS oi ON co.id=oi.order_id 
+	GROUP BY c.id ORDER BY contribute DESC
+  </select>
+  
+  <select id="findCustomerConstitute" resultType="com.situ.crm.vo.CustomerConstitute">
+  	SELECT DISTINCT LEVEL AS customerLevel,COUNT(*) AS customerNum
+	FROM customer GROUP BY LEVEL
+  </select>
+   
 </mapper>

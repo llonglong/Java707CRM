@@ -21,39 +21,60 @@
 			});
 		}
 	}
-	/* var url;
+	var url;
 	function openPasswordModifyDialog(){
-		$("#dialog").dialog("open").dialog("setTitle","修改密码");
-		url:"${ctx}/user/update.action";
-		var row = selections[0];
-		$('#form').form("load", row);
+		$("#dialog").dialog("open").dialog("setTitle","添加信息");
+		$('#form').form("clear");
+		$('#id').val("${user.id}");
+		$('#name').val("${user.name}");
 	}
 	
 	function closeDialog(){
 		 $("#dialog").dialog("close");
-	} */
+	} 
 	
-	/* function doSave(){
-		$("#form").form('submit',{
-			url:url,
-			onSubmit:function(){
-				if($("#password")!=($("#passwordPardon"))){
-					$.message.alert("系统提示","请确定新密码是否正确");
-					return false;
-				}
-				return $(this).form("validate");
-			},
-			success:function(data){
-				
-				var data = eval('(' + data + ')'); 
-				if(data.status == Util.SUCCESS){
-					$.messager.alert("系统提示", data.message);
+	function doSave(){
+		$('#form').form('submit', {    
+		    url:"${ctx}/user/updateById.action",    
+		    onSubmit: function(){    
+		        //validate none 做表单字段验证，当所有字段都有效的时候返回true。该方法使用validatebox(验证框)插件。 
+		        // return false to prevent submit;  
+		    var oldpass = $('#oldpassword').val();
+		    var password = $('#password').val();
+		    var newpassword = $('#newpassword').val();
+		    if(password != newpassword){
+		    	alert('两次输入的密码不一致！')
+		    	return false;
+		    }
+		    if(oldpass == password && password == newpassword){
+		    	alert('新旧密码不能相同！')
+		    	return false;
+		    }
+		        return $(this).form("validate");
+		    },    
+		    success:function(data){//正常返回ServerResponse
+		    	//alert(data);
+		    	var data = eval('(' + data + ')');
+		    	if(data.status == Util.SUCCESS) {
+		    		$.messager.alert("系统提示", data.message);
 		    		$("#dialog").dialog("close");
 		    		$("#datagrid").datagrid("reload");
-				}
-			}
-		});
-	} */
+		    	} else {
+		    		$.messager.alert('系统提示',data.message);
+		    	}
+		    }    
+		});  
+	}
+	/* 注销 */
+	function logout(){
+		$.messager.alert('系统提示','退出成功');    
+		$.messager.confirm('确认','您确认想要退出登录吗？',function(tc){    
+			if (tc){    
+		        
+		        location.href="${ctx}/user/logout.action"
+		    }    
+		});  
+	}
 </script>
 </head>
 <body class="easyui-layout">
@@ -105,37 +126,37 @@
 			<div title="服务管理" data-options="iconCls:'icon-fwgl'"
 				style="padding: 10px">
 				<a
-					href="javascript:openTab('服务创建','customerServiceCreate.jsp','icon-fwcj')"
+					href="javascript:openTab('服务创建','${ctx}/customerService/index1.action','icon-fwcj')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-fwcj'" style="width: 150px;">服务创建</a>
 				<a
-					href="javascript:openTab('服务分配','customerServiceAssign.jsp','icon-fwfp')"
+					href="javascript:openTab('服务分配','${ctx}/customerService/index2.action','icon-fwfp')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-fwfp'" style="width: 150px;">服务分配</a>
 				<a
-					href="javascript:openTab('服务处理','customerServiceProce.jsp','icon-fwcl')"
+					href="javascript:openTab('服务处理','${ctx}/customerService/index3.action','icon-fwcl')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-fwcl'" style="width: 150px;">服务处理</a>
 				<a
-					href="javascript:openTab('服务反馈','customerServiceFeedback.jsp','icon-fwfk')"
+					href="javascript:openTab('服务反馈','${ctx}/customerService/index4.action','icon-fwfk')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-fwfk'" style="width: 150px;">服务反馈</a>
 				<a
-					href="javascript:openTab('服务归档','customerServiceFile.jsp','icon-fwgd')"
+					href="javascript:openTab('服务归档','${ctx}/customerService/index.action','icon-fwgd')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-fwgd'" style="width: 150px;">服务归档</a>
 			</div>
 			<div title="统计报表" data-options="iconCls:'icon-tjbb'"
 				style="padding: 10px">
-				<a href="javascript:openTab('客户贡献分析','khgxfx.jsp','icon-khgxfx')"
+				<a href="javascript:openTab('客户贡献分析','${ctx}/customer/getCustomerContributePage.action','icon-khgxfx')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-khgxfx'"
 					style="width: 150px;">客户贡献分析</a> <a
-					href="javascript:openTab('客户构成分析','khgcfx.jsp','icon-khgcfx')"
+					href="javascript:openTab('客户构成分析','${ctx}/customer/getCustomerConstitutePage.action','icon-khgcfx')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-khgcfx'"
 					style="width: 150px;">客户构成分析</a> <a
-					href="javascript:openTab('客户服务分析','khfwfx.jsp','icon-khfwfx')"
+					href="javascript:openTab('客户服务分析','${ctx}/customer/getCustomerServicePage.action','icon-khfwfx')"
 					class="easyui-linkbutton"
 					data-options="plain:true,iconCls:'icon-khfwfx'"
 					style="width: 150px;">客户服务分析</a> <a
@@ -179,11 +200,11 @@
 			<table cellspacing="8px">
 				<tr>
 					<td>用户名：</td>
-					<td><input typr="text" id="name" name="name" value="${user.name}" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td><input typr="text" id="name" name="name" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 				<tr>
 					<td>密码：</td>
-					<td><input typr="text" value="${user.password}" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td><input typr="text" id="oldpassword" name="oldpassword" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 				<tr>
 					<td>修改密码：</td>
@@ -191,7 +212,7 @@
 				</tr>
 				<tr>
 					<td>确定新密码：</td>
-					<td><input typr="text" id="passwordPardon" name="passwordPardon" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
+					<td><input typr="text" id="newpassword" name="newpassword" class="easyui-validatebox" required="true"/><font color="red">*</font></td>
 				</tr>
 			</table>
 		</form>

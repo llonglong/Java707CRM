@@ -20,4 +20,6 @@ public interface IUserService {
 
 	List<User> getCustomerManagerList();
 
+	ServerResponse updateById(User user);
+
 }

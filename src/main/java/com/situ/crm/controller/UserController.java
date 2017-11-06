@@ -69,4 +69,18 @@ public class UserController {
 	public List<User> getCustomerManagerList(){
 		return userService.getCustomerManagerList();
 	}
+	
+	@RequestMapping("/updateById")
+	@ResponseBody
+	public ServerResponse updateById(HttpServletRequest req, User user){
+				System.out.println(user.getName());
+				return userService.updateById(user);
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest req) {
+		HttpSession session = req.getSession(true);
+		session.invalidate();
+		return "redirect:/index/tologin.action";
+	}
 }

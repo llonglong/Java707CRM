@@ -9,6 +9,8 @@ import com.situ.crm.common.EasyUIDataGrideResult;
 import com.situ.crm.common.ServerResponse;
 import com.situ.crm.pojo.Customer;
 import com.situ.crm.service.ICustomerService;
+import com.situ.crm.vo.CustomerConstitute;
+import com.situ.crm.vo.CustomerContribute;
 
 @Controller
 @RequestMapping("/customer")
@@ -49,5 +51,38 @@ public class CustomerController {
 	@ResponseBody
 	public ServerResponse findById(Integer id){
 		return customerService.findById(id);
+	}
+	
+	@RequestMapping("/getCustomerContributePage")
+	public String getCustomerContributePage(){
+		return "customer_contribute_analysis";
+	}
+	
+	@RequestMapping("/findCustomerContribute")
+	@ResponseBody
+	public EasyUIDataGrideResult findCustomerContribute(Integer page, Integer rows, CustomerContribute customerContribute){
+		return customerService.findCustomerContribute(page, rows, customerContribute);
+	}
+	
+	@RequestMapping("/getCustomerConstitutePage")
+	public String getCustomerConstitutePage(){
+		return "customer_constitute_analysis";
+	}
+	
+	@RequestMapping("/findCustomerConstitute")
+	@ResponseBody
+	public ServerResponse findCustomerConstitute(){
+		return customerService.findCustomerConstitute();
+	}
+	
+	@RequestMapping("/getCustomerServicePage")
+	public String getCustomerServicePage(){
+		return "customer_service_analysis";
+	}
+	
+	@RequestMapping("/findCustomerService")
+	@ResponseBody
+	public ServerResponse findCustomerService(){
+		return customerService.findCustomerService();
 	}
 }
